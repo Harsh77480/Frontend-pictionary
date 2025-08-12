@@ -1,0 +1,56 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+env/
+
+# Environment variables and secrets
+.env
+.env.*
+
+# Django-related
+db.sqlite3
+*.sqlite3
+*.log
+
+# Migrations (optional — keep if you want DB schema in version control)
+**/migrations/*.pyc
+**/migrations/__pycache__/
+# Uncomment this to ignore migration files (not always recommended)
+# **/migrations/*.py
+
+# Static and media files
+staticfiles/     # For collectstatic (prod)
+media/           # Uploaded files
+
+# IDEs
+.vscode/
+.idea/
+
+# Byte-compiled files and distribution
+*.egg-info/
+dist/
+build/
+
+# macOS
+.DS_Store
+
+# Test outputs
+htmlcov/
+coverage.xml
+*.cover
+*.log
+
+# pyenv
+.python-version
+
+# PEP 582 (Python local packages)
+__pypackages__/
+
+# Docker
+*.pid
+*.tar
+*.bak
