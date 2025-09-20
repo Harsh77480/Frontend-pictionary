@@ -48,22 +48,12 @@ export default function CanvasBoard({ isDrawer, pushToast }) {
     const ctx = canvas.getContext("2d");
     ctxRef.current = ctx;
 
-  //     function resizeCanvas() {
-  //   const parent = canvas.parentElement;
-  //   const width = parent.clientWidth;
-  //   const height = Math.min(600, width * 0.75); // keep ~4:3 ratio
-  //   canvas.width = width;
-  //   canvas.height = height;
-  // }
-  // resizeCanvas();
-  window.addEventListener("resize", resizeCanvas);
-
-    const ratio = window.devicePixelRatio || 1;
-    canvas.width = Math.floor(W * ratio);
-    canvas.height = Math.floor(H * ratio);
-    canvas.style.width = `${W}px`;
-    canvas.style.height = `${H}px`;
-    ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+    // const ratio = window.devicePixelRatio || 1;
+    // canvas.width = Math.floor(W * ratio);
+    // canvas.height = Math.floor(H * ratio);
+    // canvas.style.width = `${W}px`;
+    // canvas.style.height = `${H}px`;
+    // ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
 
     // white background
     ctx.fillStyle = "#fff";
