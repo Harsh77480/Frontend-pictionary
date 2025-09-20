@@ -41,6 +41,20 @@ export default function CanvasBoard({ isDrawer, pushToast }) {
   // keys: strokeId -> { active: bool }  (we do no cross-stroke linking)
   const remoteActiveRef = useRef(new Map());
 
+useEffect(() => {
+    const canvas = canvasRef.current;
+
+    function resizeCanvas() {
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width;
+      canvas.height = rect.height;
+    }
+
+    resizeCanvas(); // set once at mount
+    window.addEventListener("resize", resizeCanvas);
+    return () => window.removeEventListener("resize", resizeCanvas);
+  }, []);
+
   // set up canvas and flush timer
   useEffect(() => {
     const canvas = canvasRef.current;
