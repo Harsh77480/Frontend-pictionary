@@ -236,7 +236,7 @@ export default function App() {
             <div className="game-top">
               <div className="game-title">Game <strong>{currentPin}</strong> — You are <strong>{currentName}</strong></div>
               <div>
-                <button onClick={startGame}>Start Game (host)</button>
+                <button onClick={startGame} > <h5> Start Game (host) </h5></button>
               </div>
             </div>
 

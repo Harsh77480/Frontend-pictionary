@@ -48,6 +48,16 @@ export default function CanvasBoard({ isDrawer, pushToast }) {
     const ctx = canvas.getContext("2d");
     ctxRef.current = ctx;
 
+      function resizeCanvas() {
+    const parent = canvas.parentElement;
+    const width = parent.clientWidth;
+    const height = Math.min(600, width * 0.75); // keep ~4:3 ratio
+    canvas.width = width;
+    canvas.height = height;
+  }
+  resizeCanvas();
+  window.addEventListener("resize", resizeCanvas);
+
     const ratio = window.devicePixelRatio || 1;
     canvas.width = Math.floor(W * ratio);
     canvas.height = Math.floor(H * ratio);
@@ -94,7 +104,7 @@ export default function CanvasBoard({ isDrawer, pushToast }) {
     }, FLUSH_MS);
 
     return () => {
-      clearInterval(flushTimerRef.current);
+      clearInterval(flushTimerRef.current);window.removeEventListener("resize", resizeCanvas);
     };
   }, [socket]);
 
