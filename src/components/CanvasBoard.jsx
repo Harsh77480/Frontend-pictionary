@@ -48,12 +48,12 @@ export default function CanvasBoard({ isDrawer, pushToast }) {
     const ctx = canvas.getContext("2d");
     ctxRef.current = ctx;
 
-    // const ratio = window.devicePixelRatio || 1;
-    // canvas.width = Math.floor(W * ratio);
-    // canvas.height = Math.floor(H * ratio);
-    // canvas.style.width = `${W}px`;
-    // canvas.style.height = `${H}px`;
-    // ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+    const ratio = window.devicePixelRatio || 1;
+    canvas.width = Math.floor(W * ratio);
+    canvas.height = Math.floor(H * ratio);
+    canvas.style.width = `${W}px`;
+    canvas.style.height = `${H}px`;
+    ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
 
     // white background
     ctx.fillStyle = "#fff";
@@ -182,8 +182,10 @@ export default function CanvasBoard({ isDrawer, pushToast }) {
   //   return { x: Math.round(clientX - r.left), y: Math.round(clientY - r.top) };
   // }
 
- function getPointerPos(e) {
+function getPointerPos(e) {
   const canvas = canvasRef.current;
+  if (!canvas) return { x: 0, y: 0 };
+
   const rect = canvas.getBoundingClientRect();
 
   const clientX =
@@ -191,10 +193,12 @@ export default function CanvasBoard({ isDrawer, pushToast }) {
   const clientY =
     e.clientY ?? (e.touches && e.touches[0] && e.touches[0].clientY);
 
-  // Because canvas.width/height are set to rect.width/height in resize handler,
-  // we can just subtract offsets like in your class example
-  const x = clientX - rect.left;
-  const y = clientY - rect.top;
+  // guard for weird cases
+  if (!rect.width || !rect.height) return { x: 0, y: 0 };
+
+  // Map CSS coords -> canvas logical coords (W x H)
+  const x = (clientX - rect.left) * (W / rect.width);
+  const y = (clientY - rect.top) * (H / rect.height);
 
   return { x: Math.round(x), y: Math.round(y) };
 }
