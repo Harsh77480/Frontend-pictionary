@@ -41,20 +41,6 @@ export default function CanvasBoard({ isDrawer, pushToast }) {
   // keys: strokeId -> { active: bool }  (we do no cross-stroke linking)
   const remoteActiveRef = useRef(new Map());
 
-useEffect(() => {
-    const canvas = canvasRef.current;
-
-    function resizeCanvas() {
-      const rect = canvas.getBoundingClientRect();
-      canvas.width = rect.width;
-      canvas.height = rect.height;
-    }
-
-    resizeCanvas(); // set once at mount
-    window.addEventListener("resize", resizeCanvas);
-    return () => window.removeEventListener("resize", resizeCanvas);
-  }, []);
-
   // set up canvas and flush timer
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -62,14 +48,14 @@ useEffect(() => {
     const ctx = canvas.getContext("2d");
     ctxRef.current = ctx;
 
-      function resizeCanvas() {
-    const parent = canvas.parentElement;
-    const width = parent.clientWidth;
-    const height = Math.min(600, width * 0.75); // keep ~4:3 ratio
-    canvas.width = width;
-    canvas.height = height;
-  }
-  resizeCanvas();
+  //     function resizeCanvas() {
+  //   const parent = canvas.parentElement;
+  //   const width = parent.clientWidth;
+  //   const height = Math.min(600, width * 0.75); // keep ~4:3 ratio
+  //   canvas.width = width;
+  //   canvas.height = height;
+  // }
+  // resizeCanvas();
   window.addEventListener("resize", resizeCanvas);
 
     const ratio = window.devicePixelRatio || 1;
@@ -118,7 +104,7 @@ useEffect(() => {
     }, FLUSH_MS);
 
     return () => {
-      clearInterval(flushTimerRef.current);window.removeEventListener("resize", resizeCanvas);
+      clearInterval(flushTimerRef.current);
     };
   }, [socket]);
 
