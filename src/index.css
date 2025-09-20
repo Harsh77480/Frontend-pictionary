@@ -143,3 +143,23 @@ body,html,#root{height:100%;margin:0;font-family:Inter,Arial,Helvetica,sans-seri
     font-size: 14px;
   }
 }
+
+
+.loading-screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+  background: linear-gradient(135deg, #ec4899, #6366f1);
+  color: #fff;
+}
+.loading-screen h1 {
+  font-size: 32px;
+  margin-bottom: 12px;
+}
+.loading-screen p {
+  font-size: 18px;
+  opacity: 0.9;
+}

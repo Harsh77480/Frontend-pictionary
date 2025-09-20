@@ -33,6 +33,7 @@ export default function App() {
   const [currentWord, setCurrentWord] = useState(null);
   const [scores, setScores] = useState({});
   const [timerText, setTimerText] = useState("--");
+  const [connected, setConnected] = useState(false);
 
   // UI helpers
   const [toasts, setToasts] = useState([]);
@@ -51,7 +52,9 @@ export default function App() {
     if (!socket) return;
     const s = socket;
 
-    const onConnect = () => pushToast("Connected");
+    
+    const onConnect = () => {pushToast("Connected");setConnected(true);}
+    const onDisconnect = () => setConnected(false);
     const onConnectError = () => pushToast("Connection error", 5000);
 
     s.on("connect", onConnect);
@@ -207,12 +210,22 @@ export default function App() {
     return gameOverData.winners.join(", ");
   }, [gameOverData]);
 
+  if (!connected) {
+  return (
+    <div className="loading-screen">
+      <h1>Pictionary 🎨</h1>
+      <p>Connecting to game server...</p>
+    </div>
+  );
+  }
   return (
     <div className="app-root">
       <header className="app-header">
         <h1>Pictionary</h1>
         <div className="meta">Timer: <strong>{timerText}</strong></div>
       </header>
+
+      
 
       {screen === "lobby" && (
         <main className="lobby card">
