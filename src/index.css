@@ -1,0 +1,90 @@
+:root{
+  --bg: #f5f7fb;
+  --card: #fff;
+  --muted: #6b7280;
+  --accent: #1766c9;
+  --border: #e6e9ef;
+}
+
+/* base */
+*{box-sizing:border-box}
+body,html,#root{height:100%;margin:0;font-family:Inter,Arial,Helvetica,sans-serif;background:var(--bg);color:#111}
+.app-root{max-width:1100px;margin:18px auto;padding:12px}
+
+/* header */
+.app-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.app-header h1{margin:0;font-size:20px}
+.meta{font-size:13px;color:var(--muted)}
+
+/* cards */
+.card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px;box-shadow:0 6px 18px rgba(20,30,60,0.04)}
+.lobby .actions{margin-top:10px}
+.lobby input, .join-row input {padding:8px;border:1px solid var(--border);border-radius:6px;width:100%}
+.join-row{display:flex;gap:8px;margin-top:10px}
+.join-row button{min-width:100px}
+
+/* layout */
+.game-grid{display:grid;grid-template-columns:1fr 300px;gap:14px;align-items:flex-start}
+.canvas-card{display:flex;flex-direction:column;gap:8px}
+.game-top{display:flex;justify-content:space-between;align-items:center}
+.word-row{margin-bottom:6px}
+.word-card{background:#eef6ff;padding:8px;border-radius:8px;display:inline-block}
+.word{font-weight:700;color:#0b4a91}
+
+/* canvas */
+.canvas-area{display:flex;flex-direction:column}
+.canvas-controls{display:flex;gap:10px;align-items:center;margin-bottom:8px}
+.canvas-wrap{background:var(--card);padding:10px;border-radius:10px;border:1px solid var(--border)}
+.board{width:800px;height:600px;display:block;border:1px solid #ccc}
+
+/* sidebar & chat */
+.sidebar{display:flex;flex-direction:column;gap:12px}
+.scoreboard ul{list-style:none;padding:0;margin:8px 0}
+.scoreboard li{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed #f1f1f1;align-items:center}
+.drawer{background:#fff7e6;border-radius:6px;padding:4px}
+.badge{background:#ffd9b3;color:#6b3d00;padding:3px 6px;border-radius:6px;font-size:12px;margin-left:8px}
+
+/* chat */
+.chatbox{display:flex;flex-direction:column;height:300px;padding:8px}
+.chat-header{font-weight:700;margin-bottom:6px}
+.chat-messages{flex:1;overflow:auto;padding:6px;border:1px solid var(--border);border-radius:6px;background:#fff}
+.chat-line{padding:6px 0;font-size:14px;border-bottom:1px solid #fafafa}
+.chat-from{color:var(--accent);margin-right:6px}
+.chat-input-row{display:flex;gap:8px;margin-top:8px}
+.chat-input-row input{flex:1;padding:8px;border-radius:6px;border:1px solid var(--border)}
+.chat-input-row button{background:var(--accent);color:#fff;border:none;padding:8px 10px;border-radius:6px}
+
+/* toasts */
+.toasts{position:fixed;right:18px;top:18px;display:flex;flex-direction:column;gap:8px;z-index:9999}
+.toast{background:#111;color:#fff;padding:10px 12px;border-radius:8px;display:flex;align-items:center;gap:8px;min-width:180px;justify-content:space-between}
+.toast-close{background:transparent;color:#fff;border:none;cursor:pointer;font-size:14px}
+
+/* modal */
+.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.45);display:flex;align-items:center;justify-content:center;z-index:10000}
+.modal-card{background:var(--card);padding:18px;border-radius:10px;width:320px;box-shadow:0 10px 40px rgba(10,20,40,0.2)}
+.modal-scores{list-style:none;padding:0;margin:8px 0 0 0}
+.muted{color:var(--muted);font-size:13px}
+
+.score-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.score-table th,
+.score-table td {
+  padding: 6px 8px;
+  border-bottom: 1px solid #f0f0f0;
+  text-align: left;
+}
+.score-table th {
+  font-weight: 600;
+  background: #f9fafc;
+}
+.drawer td {
+  background: #fff7e6;
+}
+
+/* responsiveness */
+@media (max-width:1000px) {
+  .game-grid{grid-template-columns:1fr; }
+  .board{width:100%;height:380px}
+}
