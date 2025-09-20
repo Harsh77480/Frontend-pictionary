@@ -192,18 +192,19 @@ export default function CanvasBoard({ isDrawer, pushToast }) {
   //   return { x: Math.round(clientX - r.left), y: Math.round(clientY - r.top) };
   // }
 
-  function getPointerPos(e) {
+ function getPointerPos(e) {
   const canvas = canvasRef.current;
-  const r = canvas.getBoundingClientRect();
+  const rect = canvas.getBoundingClientRect();
 
   const clientX =
     e.clientX ?? (e.touches && e.touches[0] && e.touches[0].clientX);
   const clientY =
     e.clientY ?? (e.touches && e.touches[0] && e.touches[0].clientY);
 
-  // Normalize relative to displayed size, then scale to actual canvas resolution
-  const x = ((clientX - r.left) / r.width) * canvas.width;
-  const y = ((clientY - r.top) / r.height) * canvas.height;
+  // Because canvas.width/height are set to rect.width/height in resize handler,
+  // we can just subtract offsets like in your class example
+  const x = clientX - rect.left;
+  const y = clientY - rect.top;
 
   return { x: Math.round(x), y: Math.round(y) };
 }
