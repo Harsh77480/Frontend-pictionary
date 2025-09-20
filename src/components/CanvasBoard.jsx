@@ -185,12 +185,28 @@ export default function CanvasBoard({ isDrawer, pushToast }) {
   }, [socket]);
 
   // pointer handlers for drawer
+  // function getPointerPos(e) {
+  //   const r = canvasRef.current.getBoundingClientRect();
+  //   const clientX = e.clientX ?? (e.touches && e.touches[0] && e.touches[0].clientX);
+  //   const clientY = e.clientY ?? (e.touches && e.touches[0] && e.touches[0].clientY);
+  //   return { x: Math.round(clientX - r.left), y: Math.round(clientY - r.top) };
+  // }
+
   function getPointerPos(e) {
-    const r = canvasRef.current.getBoundingClientRect();
-    const clientX = e.clientX ?? (e.touches && e.touches[0] && e.touches[0].clientX);
-    const clientY = e.clientY ?? (e.touches && e.touches[0] && e.touches[0].clientY);
-    return { x: Math.round(clientX - r.left), y: Math.round(clientY - r.top) };
-  }
+  const canvas = canvasRef.current;
+  const r = canvas.getBoundingClientRect();
+
+  const clientX =
+    e.clientX ?? (e.touches && e.touches[0] && e.touches[0].clientX);
+  const clientY =
+    e.clientY ?? (e.touches && e.touches[0] && e.touches[0].clientY);
+
+  // Normalize relative to displayed size, then scale to actual canvas resolution
+  const x = ((clientX - r.left) / r.width) * canvas.width;
+  const y = ((clientY - r.top) / r.height) * canvas.height;
+
+  return { x: Math.round(x), y: Math.round(y) };
+}
 
   function handlePointerDown(e) {
     if (!isDrawer) return;
