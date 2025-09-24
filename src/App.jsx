@@ -5,6 +5,7 @@ import Chat from "./components/Chat";
 import Scoreboard from "./components/Scoreboard";
 import Toasts from "./components/Toasts";
 import Modal from "./components/Modal";
+import ReCAPTCHA from "react-google-recaptcha"; // Import the reCAPTCHA component
 
 /**
  * App.jsx
@@ -26,6 +27,7 @@ export default function App() {
   const [pinInput, setPinInput] = useState("");
   const [currentPin, setCurrentPin] = useState(null);
   const [currentName, setCurrentName] = useState(null);
+  const [recaptchaValue, setRecaptchaValue] = useState(null);
 
   // game state derived from server
   const [isDrawer, setIsDrawer] = useState(false);
@@ -165,35 +167,38 @@ export default function App() {
 
   // lobby actions
   const createGame = useCallback(() => {
-    const nm = sanitizeName(name);
-    if (!nm) return alert("Enter a name");
-    if (!socket) return alert("Socket not ready");
-    socket.emit("createGame", (res) => {
-      if (!res?.ok) return alert(res?.message || "Create failed");
-      // auto-join as creator
-      socket.emit("joinGame", { pin: res.pin, name: nm }, (jr) => {
-        if (!jr?.ok) return alert(jr?.message || "Join failed");
-        setCurrentPin(res.pin);
-        setCurrentName(jr.name ?? nm);
-        setScreen("game");
-        pushToast(`Created and joined ${res.pin}`);
-      });
+  const nm = sanitizeName(name);
+  if (!nm) return alert("Enter a name");
+  if (!socket) return alert("Socket not ready");
+  if (!recaptchaValue) return alert("Please complete the reCAPTCHA");
+
+  socket.emit("createGame", { recaptchaToken: recaptchaValue }, (res) => {
+    if (!res?.ok) return alert(res?.message || "Create failed");
+    socket.emit("joinGame", { pin: res.pin, name: nm }, (jr) => {
+      if (!jr?.ok) return alert(jr?.message || "Join failed");
+      setCurrentPin(res.pin);
+      setCurrentName(jr.name ?? nm);
+      setScreen("game");
+      pushToast(`Created and joined ${res.pin}`);
     });
-  }, [socket, name, pushToast]);
+  });
+}, [socket, name, recaptchaValue, pushToast]);
 
   const joinGame = useCallback(() => {
-    const nm = sanitizeName(name);
-    const pin = String(pinInput || "").trim();
-    if (!nm || !pin) return alert("Enter name and PIN");
-    if (!socket) return alert("Socket not ready");
-    socket.emit("joinGame", { pin, name: nm }, (res) => {
-      if (!res?.ok) return alert(res?.message || "Join failed");
-      setCurrentPin(pin);
-      setCurrentName(res.name ?? nm);
-      setScreen("game");
-      pushToast(`Joined ${pin}`);
-    });
-  }, [socket, name, pinInput, pushToast]);
+  const nm = sanitizeName(name);
+  const pin = String(pinInput || "").trim();
+  if (!nm || !pin) return alert("Enter name and PIN");
+  if (!socket) return alert("Socket not ready");
+  if (!recaptchaValue) return alert("Please complete the reCAPTCHA");
+
+  socket.emit("joinGame", { pin, name: nm, recaptchaToken: recaptchaValue }, (res) => {
+    if (!res?.ok) return alert(res?.message || "Join failed");
+    setCurrentPin(pin);
+    setCurrentName(res.name ?? nm);
+    setScreen("game");
+    pushToast(`Joined ${pin}`);
+  });
+}, [socket, name, pinInput, recaptchaValue, pushToast]);
 
   const startGame = useCallback(() => {
     if (!socket) return;
@@ -228,19 +233,25 @@ export default function App() {
       
 
       {screen === "lobby" && (
-        <main className="lobby card">
-          <h2>Lobby</h2>
-          <input placeholder="Your name" value={name} onChange={(e) => setName(e.target.value)} />
-          <div className="actions">
-            <button onClick={createGame}>Create Game</button>
-          </div>
+      <main className="lobby card">
+        <h2>Lobby</h2>
+        <input placeholder="Your name" value={name} onChange={(e) => setName(e.target.value)} />
+        <div className="actions">
+          <button onClick={createGame}>Create Game</button>
+        </div>
 
-          <div className="join-row">
-            <input placeholder="Game PIN" value={pinInput} onChange={(e) => setPinInput(e.target.value)} />
-            <button onClick={joinGame}>Join Game</button>
-          </div>
-          
-        </main>
+        <div className="join-row">
+          <input placeholder="Game PIN" value={pinInput} onChange={(e) => setPinInput(e.target.value)} />
+          <button onClick={joinGame}>Join Game</button>
+        </div>
+
+        {/* Add the reCAPTCHA widget here */}
+        <ReCAPTCHA
+          hl="en"
+          sitekey={import.meta.env.VITE_SITE_KEY} // Replace with your Google reCAPTCHA site key
+          onChange={(value) => setRecaptchaValue(value)} // Handle recaptcha response
+        />
+      </main>
       )}
 
       {screen === "game" && (
