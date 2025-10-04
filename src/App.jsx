@@ -251,6 +251,17 @@ export default function App() {
           sitekey={import.meta.env.VITE_SITE_KEY} // Replace with your Google reCAPTCHA site key
           onChange={(value) => setRecaptchaValue(value)} // Handle recaptcha response
         />
+
+        {/* 🎯 Simple 3-step guide */}
+<div className="lobby-guide">
+  <h3>How to Play</h3>
+  <ol>
+    <li>Create a game to get a game code.</li>
+    <li>Share the code with your friends.</li>
+    <li>Join with that code and start playing!</li>
+  </ol>
+</div>
+
       </main>
       )}
 

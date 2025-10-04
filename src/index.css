@@ -163,3 +163,21 @@ body,html,#root{height:100%;margin:0;font-family:Inter,Arial,Helvetica,sans-seri
   font-size: 18px;
   opacity: 0.9;
 }
+
+.lobby-guide {
+  margin-top: 24px;
+  padding: 12px;
+  background: #f9fafb;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.lobby-guide h3 {
+  margin-top: 0;
+  font-size: 16px;
+}
+
+.lobby-guide ol {
+  padding-left: 20px;
+  margin: 8px 0 0 0;
+}
