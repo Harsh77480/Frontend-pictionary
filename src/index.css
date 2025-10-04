@@ -71,6 +71,10 @@ body,html,#root{height:100%;margin:0;font-family:Inter,Arial,Helvetica,sans-seri
 .modal-card{background:var(--card);padding:18px;border-radius:10px;width:320px;box-shadow:0 10px 40px rgba(10,20,40,0.2)}
 .modal-scores{list-style:none;padding:0;margin:8px 0 0 0}
 .muted{color:var(--muted);font-size:13px}
+.drawer-guesser{
+  color : green;
+  font-size:16px
+}
 
 .score-table {
   width: 100%;

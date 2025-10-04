@@ -21,7 +21,7 @@ function makeStrokeId() {
   return Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 9);
 }
 
-export default function CanvasBoard({ isDrawer, pushToast }) {
+export default function CanvasBoard({ isDrawer, pushToast, gameStarted }) {
   const socket = useSocket();
   const canvasRef = useRef(null);
   const ctxRef = useRef(null);
@@ -40,13 +40,20 @@ export default function CanvasBoard({ isDrawer, pushToast }) {
   // remote strokes active map
   // keys: strokeId -> { active: bool }  (we do no cross-stroke linking)
   const remoteActiveRef = useRef(new Map());
-
+  
   // set up canvas and flush timer
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     ctxRef.current = ctx;
+
+  const handleGameOver = () => {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  };
+  socket.on("roundEnded",()=>{
+    handleGameOver()})
+
 
     const ratio = window.devicePixelRatio || 1;
     canvas.width = Math.floor(W * ratio);
@@ -279,7 +286,9 @@ function getPointerPos(e) {
       style={{ marginLeft: "8px" }}
     />
   )}
-        <div className="muted">{isDrawer ? "You are drawing" : "You are guessing"}</div>
+
+      {gameStarted && <div className="drawer-guesser">{isDrawer ? "You are the drawer" : "Guess the drawing! (You can't draw in this round)!"}</div>}
+        
       </div>
 
       <div className="canvas-wrap">

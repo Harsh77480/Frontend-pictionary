@@ -70,9 +70,10 @@ export default function App() {
       pushToast(`Players: ${players.join(", ")}${host ? " | Host: " + host : ""}`);
     });
 
-    s.on("gameStarted", () => {pushToast("Game started"),setGameStarted(true)});
+    s.on("gameStarted", () => {pushToast("Game started")});
 
     s.on("roundStarted", (data) => {
+  setGameStarted(true)
   setIsDrawer(false);
   setCurrentWord(null);
   setDrawerName(data?.drawerName ?? null);
@@ -283,7 +284,7 @@ export default function App() {
                         : <div className="muted">Drawer: {drawerName || "—"}</div>}
             </div>
 
-            <CanvasBoard isDrawer={isDrawer} pushToast={pushToast} />
+            <CanvasBoard isDrawer={isDrawer} pushToast={pushToast} gameStarted={gameStarted} />
           </section>
 
           <aside className="sidebar">
