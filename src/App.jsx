@@ -273,7 +273,7 @@ export default function App() {
         <main className="game-grid">
           <section className="canvas-card">
             <div className="game-top">
-              <div className="game-title">Game <strong>{currentPin}</strong> — You are <strong>{currentName}</strong></div>
+             {gameStarted ? <div className="game-title"> You are <strong>{currentName}</strong></div> : <div className="game-title">GAME CODE : <strong>{currentPin}</strong> — You are <strong>{currentName}</strong></div>}
               <div>
                { gameStarted ? <></> : <button onClick={startGame} > <h5> Start Game (host) </h5></button> } 
               </div>

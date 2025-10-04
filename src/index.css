@@ -70,9 +70,9 @@ body,html,#root{height:100%;margin:0;font-family:Inter,Arial,Helvetica,sans-seri
 .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.45);display:flex;align-items:center;justify-content:center;z-index:10000}
 .modal-card{background:var(--card);padding:18px;border-radius:10px;width:320px;box-shadow:0 10px 40px rgba(10,20,40,0.2)}
 .modal-scores{list-style:none;padding:0;margin:8px 0 0 0}
-.muted{color:var(--muted);font-size:13px}
+.muted{color:var(--muted);font-size:16px}
 .drawer-guesser{
-  color : green;
+  color : rgb(8, 95, 78);
   font-size:16px
 }
 
