@@ -226,7 +226,15 @@ export default function App() {
   return (
     <div className="app-root">
       <header className="app-header">
-        <h1>Pictionary</h1>
+        {/* <h1 className="animated-title">Pictionary 🎨</h1> */}
+        <h1 className="animated-title">
+  {"Pictionary".split("").map((ch, i) => (
+    <span key={i} style={{ animationDelay: `${i * 0.1}s` }}>
+      {ch}
+    </span>
+  ))}
+</h1> 
+
         <div className="meta">Timer: <strong>{timerText}</strong></div>
       </header>
 
@@ -235,8 +243,9 @@ export default function App() {
       {screen === "lobby" && (
       <main className="lobby card">
         <h2>Lobby</h2>
+        <div className="join-row">
         <input placeholder="Your name" value={name} onChange={(e) => setName(e.target.value)} />
-        <div className="actions">
+        {/* <div className="actions"> */}
           <button onClick={createGame}>Create Game</button>
         </div>
 
@@ -246,11 +255,13 @@ export default function App() {
         </div>
 
         {/* Add the reCAPTCHA widget here */}
+        <div className="actions">
         <ReCAPTCHA
           hl="en"
           sitekey={import.meta.env.VITE_SITE_KEY} // Replace with your Google reCAPTCHA site key
           onChange={(value) => setRecaptchaValue(value)} // Handle recaptcha response
         />
+        </div>
 
         {/* 🎯 Simple 3-step guide */}
 <div className="lobby-guide">
