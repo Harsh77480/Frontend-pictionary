@@ -36,6 +36,7 @@ export default function App() {
   const [scores, setScores] = useState({});
   const [timerText, setTimerText] = useState("--");
   const [connected, setConnected] = useState(false);
+  const [gameStarted, setGameStarted] = useState(false);
 
   // UI helpers
   const [toasts, setToasts] = useState([]);
@@ -69,16 +70,7 @@ export default function App() {
       pushToast(`Players: ${players.join(", ")}${host ? " | Host: " + host : ""}`);
     });
 
-    s.on("gameStarted", () => pushToast("Game started"));
-    // s.on("roundStarted", (data) => {
-    //   // reset per-round state and show toast
-    //   setIsDrawer(false);
-    //   setCurrentWord(null);
-    //   setDrawerName(data?.drawerName ?? null);
-    //   const dur = Number(data?.roundDurationMs) || 0;
-    //   setTimerText(dur ? `${Math.ceil(dur / 1000)}s` : "--");
-    //   pushToast(`Round ${data?.round ?? "?"} started — drawer: ${data?.drawerName ?? "?"}`);
-    // });
+    s.on("gameStarted", () => {pushToast("Game started"),setGameStarted(true)});
 
     s.on("roundStarted", (data) => {
   setIsDrawer(false);
@@ -282,7 +274,7 @@ export default function App() {
             <div className="game-top">
               <div className="game-title">Game <strong>{currentPin}</strong> — You are <strong>{currentName}</strong></div>
               <div>
-                <button onClick={startGame} > <h5> Start Game (host) </h5></button>
+               { gameStarted ? <></> : <button onClick={startGame} > <h5> Start Game (host) </h5></button> } 
               </div>
             </div>
 
